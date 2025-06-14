@@ -1,0 +1,23 @@
+.toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: inherit;
+
+  button {
+    background-color: transparent;
+    color: inherit;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: x-large;
+
+    i {
+      color: inherit;
+    }
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}

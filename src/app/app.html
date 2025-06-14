@@ -1,15 +1,4 @@
 <main class="main" [ngClass]="theme()">
   <app-theme-toggle></app-theme-toggle>
-
-  <div class="content">
-    <h1>Spin The Wheel</h1>
-    <p>Welcome to the Spin The Wheel application!</p>
-    <p>Click the button below to start spinning the wheel.</p>
-
-    <div class="button-container">
-      <app-button label="Get Started"></app-button>
-    </div>
-  </div>
+  <router-outlet />
 </main>
-
-<router-outlet />

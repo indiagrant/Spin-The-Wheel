@@ -7,7 +7,7 @@ export type Theme = 'light' | 'dark';
   providedIn: 'root',
 })
 export class ThemeService {
-  // Properties
+  // Signals
   private currentTheme = signal<Theme>('light');
   readonly theme = this.currentTheme.asReadonly();
 

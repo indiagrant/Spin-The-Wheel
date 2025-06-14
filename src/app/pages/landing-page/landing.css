@@ -16,6 +16,11 @@
     flex-direction: column;
     align-items: center;
     margin-bottom: 2rem;
+
+    p {
+      font-size: 1.25rem;
+      line-height: 0.1;
+    }
   }
 
   h1 {
@@ -24,7 +29,7 @@
     line-height: 100%;
     letter-spacing: -0.125rem;
     margin: 0;
-    margin-bottom: 1rem;
+    margin-bottom: 3rem;
     font-family: "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI",
       Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji",
       "Segoe UI Emoji", "Segoe UI Symbol";

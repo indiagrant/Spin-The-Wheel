@@ -1,1 +1,24 @@
-<app-wheel></app-wheel>
+<main>
+  <section class="instructions">
+    <h4>Instructions:</h4>
+    <p>
+      Click the button to spin the wheel. The wheel will stop at a random
+      position, simulating a spin.
+    </p>
+    <p>To see a pre-determined result, click the second button.</p>
+  </section>
+  <app-wheel></app-wheel>
+</main>
+
+<ng-template #results>
+  <div class="results-container">
+    <p>Selected:</p>
+    <h3>test</h3>
+  </div>
+  <div class="button-container">
+    <app-button
+      label="Spin Again"
+      (btnClick)="navigateToLanding()"
+    ></app-button>
+  </div>
+</ng-template>

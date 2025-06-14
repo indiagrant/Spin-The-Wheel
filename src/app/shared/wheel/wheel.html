@@ -1,16 +1,13 @@
-<div class="instructions">
-  <h4>Instructions:</h4>
-  <p>
-    Click the button to spin the wheel. The wheel will stop at a random
-    position, simulating a spin.
-  </p>
-  <p>To see a pre-determined result, click the second button.</p>
-</div>
-<div class="wheel-container">
-  <canvas #crfCanvas id="canvas" width="300" height="300"></canvas>
+<main>
+  <section class="wheel-container">
+    <canvas #crfCanvas id="canvas" width="300" height="300"></canvas>
 
-  <div class="button-container">
-    <app-button label="Random Spin" (click)="spinWheel()"></app-button>
-    <app-button label="Pre-Determined Spin" (click)="spinWheel()"></app-button>
-  </div>
-</div>
+    <section class="button-container">
+      <app-button label="Random Spin" (click)="spinWheel()"></app-button>
+      <app-button
+        label="Pre-Determined Spin"
+        (click)="spinWheel()"
+      ></app-button>
+    </section>
+  </section>
+</main>

@@ -1,0 +1,7 @@
+<div class="mask"></div>
+
+<div class="dialog-container">
+  <app-panel [title]="dialogData()?.title">
+    <ng-container [ngTemplateOutlet]="dialogData()?.template"></ng-container>
+  </app-panel>
+</div>

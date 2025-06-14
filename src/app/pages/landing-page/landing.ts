@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ThemeService } from '../../shared/theme/theme.service';
 import { computed, inject } from '@angular/core';
+import { PanelComponent } from '../../shared/panel/panel';
+import { DialogComponent } from '../../shared/dialog/dialog';
 
 @Component({
   selector: 'app-landing',

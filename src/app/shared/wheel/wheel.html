@@ -1,13 +1,31 @@
-<main>
-  <section class="wheel-container">
-    <canvas #crfCanvas id="canvas" width="300" height="300"></canvas>
+<section class="wheel-container">
+  <i class="fa-solid fa-arrow-right arrow"></i>
+  <div #wheelContainer class="container">
+    <div class="one">1</div>
+    <div class="two">2</div>
+    <div class="three">3</div>
+    <div class="four">4</div>
+    <div class="five">5</div>
+    <div class="six">6</div>
+    <div class="seven">7</div>
+    <div class="eight">8</div>
+  </div>
+</section>
 
-    <section class="button-container">
-      <app-button label="Random Spin" (click)="spinWheel()"></app-button>
-      <app-button
-        label="Pre-Determined Spin"
-        (click)="spinWheel()"
-      ></app-button>
-    </section>
-  </section>
-</main>
+<section class="button-container">
+  <app-button label="Random Spin" (click)="spinWheel()"></app-button>
+  <app-button label="Pre-Determined Spin" (click)="spinWheelTo(5)"></app-button>
+</section>
+
+<ng-template #results>
+  <div class="results-container">
+    <p>You have spun a:</p>
+    <h3>{{selectedSegment()}}</h3>
+  </div>
+  <div class="button-container">
+    <app-button
+      label="Spin Again"
+      (btnClick)="navigateToLandingPage()"
+    ></app-button>
+  </div>
+</ng-template>

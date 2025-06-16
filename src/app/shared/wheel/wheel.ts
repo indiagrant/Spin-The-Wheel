@@ -42,10 +42,13 @@ export class WheelComponent {
   results = viewChild<TemplateRef<void>>('results');
   private segmentColours = [
     '#ff99c8', // pink
-    '#fcf6bd', // Green
-    '#d0f4de', // Blue
-    '#a9def9', // Yellow
-    '#e4c1f9', // Purple
+    '#fcf6bd', // yellow
+    '#d0f4de', // green
+    '#a9def9', // light blue
+    '#e4c1f9', // purple
+    'fde4cf', // orange
+    'a3c4f3', // dark Blue
+    '98f5e1', // teal
   ];
 
   // Signals
@@ -56,11 +59,11 @@ export class WheelComponent {
 
   // Computed properties
   segmentCount = computed(() => Math.max(1, this.segments().length));
-  private normalisedAngle = computed(() => this.rotation() % 360);
+  private angle = computed(() => this.rotation() % 360);
 
   // index of the segment the wheel is currently pointing to
   readonly selectedSegmentIndex = computed(() => {
-    const normalised = (270 - this.normalisedAngle()) % 360;
+    const normalised = (270 - this.angle()) % 360;
     return Math.floor(normalised / SEGMENT_DEGREE);
   });
 
@@ -103,6 +106,35 @@ export class WheelComponent {
     };
 
     this.segments.update((segments) => [...segments, newSegment]);
+    this.newSegmentLabel.set('');
+  }
+
+  updateFirstSegment(): void {
+    const label = this.newSegmentLabel();
+    if (!label) return;
+
+    this.segments.update((segments) => {
+      if (segments.length === 1 && segments[0].label === '') {
+        // Update the first empty segment
+        return [
+          {
+            ...segments[0],
+            label,
+          },
+        ];
+      } else {
+        // Add as new segment
+        return [
+          ...segments,
+          {
+            label,
+            colour:
+              this.segmentColours[segments.length % this.segmentColours.length],
+            id: Date.now().toString(36) + Math.random().toString(36),
+          },
+        ];
+      }
+    });
     this.newSegmentLabel.set('');
   }
 

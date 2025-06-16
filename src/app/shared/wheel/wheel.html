@@ -1,72 +1,73 @@
-<!--- Spinner -->
+<!--- Spinner section -->
 <section class="main-container">
-  <div class="left-side">
-    <section class="wheel-container">
+  <section class="left-side">
+    <div class="wheel-container">
       <i class="fa-solid fa-arrow-right arrow"></i>
-
       <div #wheelContainer class="container">
-        <div class="one">1</div>
-        <div class="two">2</div>
-        <div class="three">3</div>
-        <div class="four">4</div>
-        <div class="five">5</div>
-        <div class="six">6</div>
-        <div class="seven">7</div>
-        <div class="eight">8</div>
+        @for (segment of segments(); track segment.id) {
+        <div class="segment" [class.single-segment]="segmentCount() === 1">
+          {{segment.label}}
+        </div>
+        }
       </div>
-    </section>
+    </div>
 
-    <section class="button-container">
+    <div class="button-container">
       <app-button label="Random Spin" (click)="spinWheel()"></app-button>
       <app-button
         label="Pre-Determined Spin"
         (click)="spinWheelTo(5)"
       ></app-button>
-    </section>
-  </div>
+    </div>
+  </section>
 
-  <!--- Segment inputs -->
-  <div class="right-side">
+  <!--- Segment section -->
+  <section class="right-side">
     <section class="input-container">
       <div class="input-group">
         <input
           type="text"
           placeholder="Enter segment label"
           class="segment-input"
+          [(ngModel)]="newSegmentLabel"
         />
         <app-button
           class="add-segment-btn"
           label="Add"
-          (btnClick)="addSegment()"
-          [disabled]="true"
+          (btnClick)="segments().length === 1 && segments()[0].label === '' ? updateFirstSegment() : addSegment()"
+          [disabled]="!newSegmentLabel()"
         ></app-button>
       </div>
     </section>
 
+    @if (segments().length > 1) {
     <section class="segments-list">
-      <h3>Current Segments {{segmentCount()}}</h3>
+      <h3>Current Segments ({{ segmentCount() }}):</h3>
+      <div class="segment-items">
+        @for (segment of segments(); track segment.id) {
+        <div class="segment-item">
+          <div
+            class="colour-indicator"
+            [style.background-color]="segment.colour"
+          ></div>
+          <span class="segment-label">{{ segment.label }}</span>
+        </div>
+        }
+      </div>
     </section>
-    @for (segment of segments(); track segment.id){
-    <div class="segment-item">
-      <div
-        class="colour-indicator"
-        [style.background-colour]="segment.colour"
-      ></div>
-      <span class="segment-label">{{ segment.label }}</span>
-    </div>
     }
-  </div>
 
-  <ng-template #results>
-    <div class="results-container">
-      <p>You have spun a:</p>
-      <h3>{{selectedSegment()}}</h3>
-    </div>
-    <div class="button-container">
-      <app-button
-        label="Spin Again"
-        (btnClick)="navigateToLandingPage()"
-      ></app-button>
-    </div>
-  </ng-template>
+    <ng-template #results>
+      <div class="results-container">
+        <p>You have spun a:</p>
+        <h3>{{selectedSegment()}}</h3>
+      </div>
+      <div class="button-container">
+        <app-button
+          label="Spin Again"
+          (btnClick)="navigateToLandingPage()"
+        ></app-button>
+      </div>
+    </ng-template>
+  </section>
 </section>

@@ -1,5 +1,5 @@
 .button__wrapper {
-  padding: 0.5rem 1rem;
-  border-radius: 1rem;
+  padding: 8px 16px;
+  border-radius: 16px;
   font-size: medium;
 }

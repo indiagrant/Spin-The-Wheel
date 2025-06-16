@@ -12,6 +12,7 @@ import {
 import { ButtonComponent } from '../button/button';
 import { DialogService } from '../dialog/dialog.service';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 const SEGMENT_COUNT = 8;
 const SEGMENT_DEGREE = 360 / SEGMENT_COUNT;
@@ -22,7 +23,7 @@ const SEGMENT_LABELS = ['1', '2', '3', '4', '5', '6', '7', '8'];
   standalone: true,
   templateUrl: './wheel.html',
   styleUrls: ['./wheel.css'],
-  imports: [ButtonComponent],
+  imports: [ButtonComponent, FormsModule],
 })
 export class WheelComponent {
   // DI

@@ -18,6 +18,12 @@ const SEGMENT_COUNT = 8;
 const SEGMENT_DEGREE = 360 / SEGMENT_COUNT;
 const SEGMENT_LABELS = ['1', '2', '3', '4', '5', '6', '7', '8'];
 
+interface WheelSegment {
+  label: string;
+  colour: string;
+  id: string;
+}
+
 @Component({
   selector: 'app-wheel',
   standalone: true,
@@ -34,13 +40,22 @@ export class WheelComponent {
   @ViewChild('wheelContainer', { static: true })
   wheelContainer!: ElementRef<HTMLDivElement>;
   results = viewChild<TemplateRef<void>>('results');
+  private segmentColours = [
+    '#ff99c8', // pink
+    '#fcf6bd', // Green
+    '#d0f4de', // Blue
+    '#a9def9', // Yellow
+    '#e4c1f9', // Purple
+  ];
 
   // Signals
+  segments = signal<WheelSegment[]>([]);
+  newSegmentLabel = signal<string>('');
   private rotation = signal(0); // total degrees of rotation
   readonly currentRotation = this.rotation.asReadonly();
 
   // Computed properties
-  // rotation between 0 and 360 degrees
+  segmentCount = computed(() => Math.max(1, this.segments().length));
   private normalisedAngle = computed(() => this.rotation() % 360);
 
   // index of the segment the wheel is currently pointing to
@@ -67,6 +82,21 @@ export class WheelComponent {
   }
 
   // Methods
+  addSegment() {
+    const currentSegments = this.segments();
+    const newSegment: WheelSegment = {
+      label: this.newSegmentLabel().trim(),
+      colour:
+        this.segmentColours[
+          currentSegments.length % this.segmentColours.length
+        ],
+      id: Date.now().toString(36) + Math.random().toString(36),
+    };
+
+    this.segments.update((segments) => [...segments, newSegment]);
+    this.newSegmentLabel.set('');
+  }
+
   spinWheel() {
     const spinAmount = Math.ceil(Math.random() * 1000);
     this.rotation.update((current) => current + spinAmount);

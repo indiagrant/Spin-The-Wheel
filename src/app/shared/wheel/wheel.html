@@ -34,9 +34,26 @@
           placeholder="Enter segment label"
           class="segment-input"
         />
-        <app-button class="add-segment-btn" label="Add"></app-button>
+        <app-button
+          class="add-segment-btn"
+          label="Add"
+          (btnClick)="addSegment()"
+        ></app-button>
       </div>
     </section>
+
+    <section class="segments-list">
+      <h3>Current Segments {{segmentCount()}}</h3>
+    </section>
+    @for (segment of segments(); track segment.id){
+    <div class="segment-item">
+      <div
+        class="colour-indicator"
+        [style.background-colour]="segment.colour"
+      ></div>
+      <span class="segment-label">{{ segment.label }}</span>
+    </div>
+    }
   </div>
 
   <ng-template #results>

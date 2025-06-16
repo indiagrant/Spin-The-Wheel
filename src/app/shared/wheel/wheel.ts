@@ -70,6 +70,15 @@ export class WheelComponent {
   );
 
   constructor() {
+    // Initialise wheel with one segment (entire circle)
+    this.segments.set([
+      {
+        label: '',
+        colour: this.segmentColours[0],
+        id: Date.now().toString(36) + Math.random().toString(36),
+      },
+    ]);
+
     // rotate wheel using the DOM
     effect(() => {
       const degrees = this.rotation();
@@ -82,7 +91,7 @@ export class WheelComponent {
   }
 
   // Methods
-  addSegment() {
+  addSegment(): void {
     const currentSegments = this.segments();
     const newSegment: WheelSegment = {
       label: this.newSegmentLabel().trim(),

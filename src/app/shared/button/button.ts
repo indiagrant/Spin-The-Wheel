@@ -9,6 +9,7 @@ import { Component, EventEmitter, input, output } from '@angular/core';
 export class ButtonComponent {
   // Inputs
   label = input.required<string>();
+  disabled = input(false);
 
   // Outputs
   btnClick = output<void>();

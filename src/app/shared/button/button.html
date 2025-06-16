@@ -1,1 +1,3 @@
-<button class="button__wrapper" (click)="handleClick()">{{label()}}</button>
+<button class="button__wrapper" (click)="handleClick()" [disabled]="disabled()">
+  {{label()}}
+</button>

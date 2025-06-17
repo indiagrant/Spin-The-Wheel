@@ -175,9 +175,12 @@ export class WheelComponent {
       return;
     }
     setTimeout(() => {
-      this.dialogService.openDialog({
-        template: this.results()!,
-        title: '🎉Results:',
+      // this.dialogService.openDialog({
+      //   template: this.results(),
+      //   title: '🎉Results:',
+      // });
+      this.router.navigate(['/results'], {
+        queryParams: { segment: this.selectedSegment(), type: 'random' },
       });
     }, 4000); // Wait for the spin animation to finish + 1000ms for added suspense
   }
@@ -210,6 +213,9 @@ export class WheelComponent {
     const totalRotation = 5 * 360 + targetRotation;
     this.rotation.update((current) => current + totalRotation);
 
+    // Store original target segment for results
+    const originalTargetLabel = this.targetSegmentLabel();
+
     //hide and clear pre-determined spin input
     this.showTargetInput.set(false);
     this.targetSegmentLabel.set('');
@@ -220,9 +226,12 @@ export class WheelComponent {
     }
 
     setTimeout(() => {
-      this.dialogService.openDialog({
-        template: this.results()!,
-        title: '🎉Results:',
+      // this.dialogService.openDialog({
+      //   template: this.results(),
+      //   title: '🎉Results:',
+      // });
+      this.router.navigate(['/results'], {
+        queryParams: { segment: originalTargetLabel, type: 'predetermined' },
       });
     }, 4000);
   }

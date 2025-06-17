@@ -11,4 +11,11 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/wheel-page/wheel-page').then((m) => m.WheelPageComponent),
   },
+  {
+    path: 'results',
+    loadComponent: () =>
+      import('./pages/results-page/results-page').then(
+        (m) => m.ResultsPageComponent
+      ),
+  },
 ];

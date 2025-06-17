@@ -35,7 +35,6 @@
         placeholder="Enter segment to spin to"
         class="target-input"
         [(ngModel)]="targetSegmentLabel"
-        (keyup.enter)="spinToTargetSegment()"
       />
       <app-button
         label="Spin"
@@ -56,13 +55,12 @@
           placeholder="Enter segment"
           class="segment-input"
           [(ngModel)]="newSegmentLabel"
-          (keyup.enter)="segments().length === 1 && segments()[0].label === '' ? updateFirstSegment() : addSegment()"
         />
         <app-button
           class="add-segment-btn"
           label="Add"
           (btnClick)="segments().length === 1 && segments()[0].label === '' ? updateFirstSegment() : addSegment()"
-          [disabled]="!newSegmentLabel() || segments().length >= 8"
+          [disabled]="!newSegmentLabel() || segments().length >= 7"
         ></app-button>
       </div>
     </section>
@@ -85,7 +83,7 @@
     <ng-template #results>
       <div class="results-container">
         <p>You have spun a:</p>
-        <h3>{{selectedSegment()}}</h3>
+        <h3>{{resultSegment()}}</h3>
       </div>
       <div class="button-container">
         <app-button

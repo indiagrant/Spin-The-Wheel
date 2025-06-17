@@ -1,15 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-button',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './button.html',
   styleUrl: './button.css',
 })
 export class ButtonComponent {
   // Inputs
   label = input.required<string>();
-  disabled = input(false);
+  disabled = input<boolean>(false);
 
   // Outputs
   btnClick = output<void>();

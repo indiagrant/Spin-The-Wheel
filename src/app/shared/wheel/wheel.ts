@@ -53,6 +53,7 @@ export class WheelComponent {
   showTargetInput = signal<boolean>(false); // Toggle for pre-determined spin input
   private rotation = signal(0); // total degrees of rotation
   readonly currentRotation = this.rotation.asReadonly();
+  readonly resultSegment = signal<string>('');
 
   // Computed properties
   segmentCount = computed(() => Math.max(1, this.segments().length));
@@ -198,13 +199,14 @@ export class WheelComponent {
       return;
     }
     setTimeout(() => {
-      // this.dialogService.openDialog({
-      //   template: this.results(),
-      //   title: '🎉Results:',
-      // });
-      this.router.navigate(['/results'], {
-        queryParams: { segment: this.selectedSegment(), type: 'random' },
+      this.resultSegment.set(this.selectedSegment());
+      this.dialogService.openDialog({
+        template: this.results()!,
+        title: '🎉Results:',
       });
+      // this.router.navigate(['/results'], {
+      //   queryParams: { segment: this.selectedSegment(), type: 'random' },
+      // });
     }, 4000); // Wait for the spin animation to finish + 1000ms for added suspense
   }
 
@@ -249,13 +251,14 @@ export class WheelComponent {
     }
 
     setTimeout(() => {
-      // this.dialogService.openDialog({
-      //   template: this.results(),
-      //   title: '🎉Results:',
-      // });
-      this.router.navigate(['/results'], {
-        queryParams: { segment: originalTargetLabel, type: 'predetermined' },
+      this.resultSegment.set(originalTargetLabel);
+      this.dialogService.openDialog({
+        template: this.results()!,
+        title: '🎉Results:',
       });
+      // this.router.navigate(['/results'], {
+      //   queryParams: { segment: originalTargetLabel, type: 'predetermined' },
+      // });
     }, 4000);
   }
 

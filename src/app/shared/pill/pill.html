@@ -1,4 +1,7 @@
 <div class="segment-item">
   <div class="colour-indicator" [style.background-color]="colour()"></div>
   <span class="segment-label">{{ label() }}</span>
+  <button class="remove-btn" (click)="handleRemove()">
+    <i class="fa fa-times"></i>
+  </button>
 </div>

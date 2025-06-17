@@ -71,7 +71,11 @@
       <h3>Current Segments ({{ segmentCount() }}):</h3>
       <div class="segment-items">
         @for (segment of segments(); track segment.id) {
-        <app-pill [label]="segment.label" [colour]="segment.colour"></app-pill>
+        <app-pill
+          [label]="segment.label"
+          [colour]="segment.colour"
+          (remove)="removeSegment(segment.id)"
+        ></app-pill>
         }
       </div>
     </section>

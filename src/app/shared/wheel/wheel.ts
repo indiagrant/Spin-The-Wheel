@@ -148,6 +148,22 @@ export class WheelComponent {
     this.newSegmentLabel.set('');
   }
 
+  removeSegment(id: string): void {
+    this.segments.update((segments) => {
+      const filtered = segments.filter((s) => s.id !== id);
+      // Always keep at least one segment
+      return filtered.length > 0
+        ? filtered
+        : [
+            {
+              label: '',
+              colour: this.segmentColours[0],
+              id: Date.now().toString(36) + Math.random().toString(36),
+            },
+          ];
+    });
+  }
+
   getSegmentStyle(segment: WheelSegment, index: number) {
     const segmentDegree = this.segmentDegree();
     const rotation = index * segmentDegree;

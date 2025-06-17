@@ -1,4 +1,4 @@
-import { Component, computed, input, signal } from '@angular/core';
+import { Component, EventEmitter, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-pill',
@@ -10,4 +10,12 @@ export class PillComponent {
   // Inputs
   label = input.required<string>();
   colour = input<string>('#ffff');
+
+  // Outputs
+  remove = output<void>();
+
+  // Methods
+  handleRemove(): void {
+    this.remove.emit();
+  }
 }

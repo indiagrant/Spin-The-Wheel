@@ -1,6 +1,7 @@
 .segment-item {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   background-color: var(--white);
   padding: 8px 12px;
@@ -18,4 +19,22 @@
 .segment-label {
   font-weight: 500;
   color: #333;
+  margin-left: 4px;
+}
+
+.remove-btn {
+  background: transparent;
+  color: black;
+  border: none;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  padding-left: 10px;
+  display: flex;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.remove-btn:hover {
+  background: transparent;
 }

@@ -50,7 +50,7 @@ export class WheelComponent {
   segments = signal<WheelSegment[]>([]);
   newSegmentLabel = signal<string>('');
   targetSegmentLabel = signal<string>(''); // For pre-determined spin
-  showTargetInput = signal<boolean>(false); // Toggle for target input visibility
+  showTargetInput = signal<boolean>(false); // Toggle for pre-determined spin input
   private rotation = signal(0); // total degrees of rotation
   readonly currentRotation = this.rotation.asReadonly();
 
@@ -85,7 +85,7 @@ export class WheelComponent {
       {
         label: '',
         colour: this.segmentColours[0],
-        id: Date.now().toString(36) + Math.random().toString(36),
+        id: this.generateId(),
       },
     ]);
 
@@ -101,6 +101,11 @@ export class WheelComponent {
   }
 
   // Methods
+  // Segment logic
+  generateId(): string {
+    return Math.random().toString(36);
+  }
+
   addSegment(): void {
     const label = this.newSegmentLabel();
     if (!label) return;
@@ -112,7 +117,7 @@ export class WheelComponent {
         this.segmentColours[
           currentSegments.length % this.segmentColours.length
         ],
-      id: Date.now().toString(36) + Math.random().toString(36),
+      id: this.generateId(),
     };
 
     this.segments.update((segments) => [...segments, newSegment]);
@@ -140,7 +145,7 @@ export class WheelComponent {
             label,
             colour:
               this.segmentColours[segments.length % this.segmentColours.length],
-            id: Date.now().toString(36) + Math.random().toString(36),
+            id: this.generateId(),
           },
         ];
       }
@@ -158,7 +163,7 @@ export class WheelComponent {
             {
               label: '',
               colour: this.segmentColours[0],
-              id: Date.now().toString(36) + Math.random().toString(36),
+              id: this.generateId(),
             },
           ];
     });
@@ -183,6 +188,7 @@ export class WheelComponent {
     };
   }
 
+  // Spin logic
   spinWheel() {
     const spinAmount = Math.ceil(Math.random() * 1000) + 360 * 5; // Random spin between 0 and 1000 degrees + 5 full spins
     this.rotation.update((current) => current + spinAmount);
@@ -253,6 +259,7 @@ export class WheelComponent {
     }, 4000);
   }
 
+  // Navigation logic
   navigateToLandingPage(): void {
     this.dialogService.closeDialog();
     this.router.navigate(['/']);

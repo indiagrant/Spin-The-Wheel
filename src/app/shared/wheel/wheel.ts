@@ -46,9 +46,8 @@ export class WheelComponent {
     '#d0f4de', // green
     '#a9def9', // light blue
     '#e4c1f9', // purple
-    'fde4cf', // orange
-    'a3c4f3', // dark Blue
-    '98f5e1', // teal
+    '#fde4cf', // orange
+    '#98f5e1', // teal
   ];
 
   // Signals
@@ -59,6 +58,7 @@ export class WheelComponent {
 
   // Computed properties
   segmentCount = computed(() => Math.max(1, this.segments().length));
+  segmentDegree = computed(() => 360 / this.segmentCount());
   private angle = computed(() => this.rotation() % 360);
 
   // index of the segment the wheel is currently pointing to
@@ -136,6 +136,25 @@ export class WheelComponent {
       }
     });
     this.newSegmentLabel.set('');
+  }
+
+  getSegmentStyle(segment: WheelSegment, index: number) {
+    const segmentDegree = this.segmentDegree();
+    const rotation = index * segmentDegree;
+
+    if (this.segmentCount() === 1) {
+      return {
+        'background-color': segment.colour,
+        transform: 'none',
+        'clip-path': 'none',
+      };
+    }
+
+    return {
+      'background-color': segment.colour,
+      transform: `rotate(${rotation}deg) translateX(-50%)`,
+      'clip-path': 'polygon(100% 0, 50% 100%, 0 0)',
+    };
   }
 
   spinWheel() {

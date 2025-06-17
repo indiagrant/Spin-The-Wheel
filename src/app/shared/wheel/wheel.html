@@ -4,8 +4,12 @@
     <div class="wheel-container">
       <i class="fa-solid fa-arrow-right arrow"></i>
       <div #wheelContainer class="container">
-        @for (segment of segments(); track segment.id) {
-        <div class="segment" [class.single-segment]="segmentCount() === 1">
+        @for (segment of segments(); track segment.id; let i = $index) {
+        <div
+          class="segment"
+          [class.single-segment]="segmentCount() === 1"
+          [style]="getSegmentStyle(segment, i)"
+        >
           {{segment.label}}
         </div>
         }
@@ -13,7 +17,11 @@
     </div>
 
     <div class="button-container">
-      <app-button label="Random Spin" (click)="spinWheel()"></app-button>
+      <app-button
+        label="Random Spin"
+        (click)="spinWheel()"
+        [disabled]="!segments() || segments().length < 2"
+      ></app-button>
       <app-button
         label="Pre-Determined Spin"
         (click)="spinWheelTo(5)"

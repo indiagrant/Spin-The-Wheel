@@ -7,9 +7,7 @@
 .main-container {
   display: flex;
   gap: 40px;
-  justify-content: center;
   align-items: flex-start;
-  padding: 20px;
   flex-wrap: wrap;
 }
 
@@ -100,6 +98,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.target-input-container {
+  margin-top: 16px;
+  display: flex;
+  gap: 10px;
+}
+
+.target-input {
+  padding: 10px 15px;
+  border: 2px solid #ddd;
+  border-radius: 16px;
+  font-size: 16px;
+  min-width: 250px;
 }
 
 /* Right side styling - segment inputs*/

@@ -48,6 +48,8 @@ export class WheelComponent {
   // Signals
   segments = signal<WheelSegment[]>([]);
   newSegmentLabel = signal<string>('');
+  targetSegmentLabel = signal<string>(''); // For pre-determined spin
+  showTargetInput = signal<boolean>(false); // Toggle for target input visibility
   private rotation = signal(0); // total degrees of rotation
   readonly currentRotation = this.rotation.asReadonly();
 
@@ -56,28 +58,24 @@ export class WheelComponent {
   segmentDegree = computed(() => 360 / this.segmentCount());
   private angle = computed(() => this.rotation() % 360);
 
-  // index of the segment the wheel is currently pointing to
-  // readonly selectedSegmentIndex = computed(() => {
-  //   const normalised = (270 - this.angle()) % 360;
-  //   return Math.floor(normalised / this.segmentDegree());
-  // });
-
-  // label of the segment the wheel is currently pointing to
-  // readonly selectedSegment = computed(() => {
-  //   const index = this.selectedSegmentIndex();
-  //   return this.segments()[index]?.label || '';
-  // });
-
+  // index of the segment the arrow is currently pointing to
   readonly selectedSegmentIndex = computed(() => {
-    if (this.segmentCount() === 0) return 0;
-    const normalised = (270 - this.angle()) % 360;
-    return Math.floor(normalised / this.segmentDegree());
+    const angle = (270 - this.angle()) % 360;
+    return Math.floor(angle / this.segmentDegree());
   });
 
+  // label of the segment the arrow is currently pointing to
   readonly selectedSegment = computed(() => {
-    const segments = this.segments();
     const index = this.selectedSegmentIndex();
-    return segments[index]?.label || '';
+    return this.segments()[index]?.label || '';
+  });
+
+  // check if target segment exists (for pre-determined spin)
+  readonly targetSegmentExists = computed(() => {
+    const target = this.targetSegmentLabel().toLowerCase();
+    return this.segments().some(
+      (segment) => segment.label.toLowerCase() === target
+    );
   });
 
   constructor() {
@@ -126,7 +124,7 @@ export class WheelComponent {
 
     this.segments.update((segments) => {
       if (segments.length === 1 && segments[0].label === '') {
-        // Update the first empty segment
+        // Update the first empty segment with label
         return [
           {
             ...segments[0],
@@ -184,9 +182,49 @@ export class WheelComponent {
     }, 4000); // Wait for the spin animation to finish + 1000ms for added suspense
   }
 
-  spinWheelTo(degree: number) {
-    const totalRotation = 360 * 5 + degree; // 5 full spins + desired position
+  toggleTargetInput(): void {
+    this.showTargetInput.update((show) => !show);
+    if (!this.showTargetInput()) {
+      this.targetSegmentLabel.set(''); // clear input when hidden
+    }
+  }
+
+  spinToTargetSegment(): void {
+    const targetLabel = this.targetSegmentLabel().toLowerCase();
+    const targetIndex = this.segments().findIndex(
+      (segment) => segment.label.toLowerCase() === targetLabel
+    );
+
+    if (targetIndex === -1) {
+      console.error('Error spinning wheel');
+      return;
+    }
+
+    //calculate target angle
+    const segmentDegree = this.segmentDegree();
+    const segmentCentreAngle = targetIndex * segmentDegree + segmentDegree / 2;
+
+    const targetRotation = (360 - segmentCentreAngle) % 360;
+
+    // add 5 spins
+    const totalRotation = 5 * 360 + targetRotation;
     this.rotation.update((current) => current + totalRotation);
+
+    //hide and clear pre-determined spin input
+    this.showTargetInput.set(false);
+    this.targetSegmentLabel.set('');
+
+    if (!this.results()) {
+      console.error('Results not available');
+      return;
+    }
+
+    setTimeout(() => {
+      this.dialogService.openDialog({
+        template: this.results()!,
+        title: '🎉Results:',
+      });
+    }, 4000);
   }
 
   navigateToLandingPage(): void {

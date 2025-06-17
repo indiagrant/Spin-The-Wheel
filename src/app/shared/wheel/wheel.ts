@@ -13,6 +13,7 @@ import { ButtonComponent } from '../button/button';
 import { DialogService } from '../dialog/dialog.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { PillComponent } from '../pill/pill';
 
 interface WheelSegment {
   label: string;
@@ -24,7 +25,7 @@ interface WheelSegment {
   selector: 'app-wheel',
   templateUrl: './wheel.html',
   styleUrls: ['./wheel.css'],
-  imports: [ButtonComponent, FormsModule],
+  imports: [ButtonComponent, FormsModule, PillComponent],
 })
 export class WheelComponent {
   // DI

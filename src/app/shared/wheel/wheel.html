@@ -71,13 +71,7 @@
       <h3>Current Segments ({{ segmentCount() }}):</h3>
       <div class="segment-items">
         @for (segment of segments(); track segment.id) {
-        <div class="segment-item">
-          <div
-            class="colour-indicator"
-            [style.background-color]="segment.colour"
-          ></div>
-          <span class="segment-label">{{ segment.label }}</span>
-        </div>
+        <app-pill [label]="segment.label" [colour]="segment.colour"></app-pill>
         }
       </div>
     </section>

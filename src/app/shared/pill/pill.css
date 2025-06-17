@@ -1,0 +1,21 @@
+.segment-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--white);
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: 1px solid rgb(221, 221, 221);
+}
+
+.colour-indicator {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+}
+
+.segment-label {
+  font-weight: 500;
+  color: #333;
+}

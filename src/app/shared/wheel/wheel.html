@@ -35,7 +35,7 @@
       <div class="input-group">
         <input
           type="text"
-          placeholder="Enter segment label"
+          placeholder="Enter segment"
           class="segment-input"
           [(ngModel)]="newSegmentLabel"
         />
@@ -43,7 +43,7 @@
           class="add-segment-btn"
           label="Add"
           (btnClick)="segments().length === 1 && segments()[0].label === '' ? updateFirstSegment() : addSegment()"
-          [disabled]="!newSegmentLabel()"
+          [disabled]="!newSegmentLabel() || segments().length >= 8"
         ></app-button>
       </div>
     </section>

@@ -46,7 +46,7 @@ export class WheelComponent {
     '#d0f4de', // green
     '#a9def9', // light blue
     '#e4c1f9', // purple
-    '#fde4cf', // orange
+    '#fde4cf', // peach
     '#98f5e1', // teal
   ];
 

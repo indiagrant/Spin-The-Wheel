@@ -7,6 +7,12 @@
   padding: 8px 12px;
   border-radius: 20px;
   border: 1px solid rgb(221, 221, 221);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.segment-item.removing {
+  opacity: 0;
+  transform: scale(0.8);
 }
 
 .colour-indicator {

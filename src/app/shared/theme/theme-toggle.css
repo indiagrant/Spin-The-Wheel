@@ -13,11 +13,22 @@
     font-size: x-large;
 
     i {
-      color: inherit;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      display: inline-block;
     }
 
     &:hover {
       opacity: 0.8;
+    }
+
+    &.fade-out i {
+      opacity: 0;
+      transform: scale(0.5) rotate(90deg);
+    }
+
+    &.fade-in i {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
     }
   }
 }

@@ -211,7 +211,7 @@ export class WheelComponent {
   toggleTargetInput(): void {
     this.showTargetInput.update((show) => !show);
     if (!this.showTargetInput()) {
-      this.targetSegmentLabel.set(''); // clear input when hidden
+      this.targetSegmentLabel.set('');
     }
   }
 

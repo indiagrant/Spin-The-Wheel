@@ -35,6 +35,7 @@
         placeholder="Enter segment to spin to"
         class="target-input"
         [(ngModel)]="targetSegmentLabel"
+        (keyup.enter)="spinToTargetSegment()"
       />
       <app-button
         label="Spin"

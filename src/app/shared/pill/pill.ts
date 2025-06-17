@@ -1,4 +1,4 @@
-import { Component, EventEmitter, input, output } from '@angular/core';
+import { Component, EventEmitter, input, output, signal } from '@angular/core';
 
 @Component({
   selector: 'app-pill',
@@ -14,8 +14,13 @@ export class PillComponent {
   // Outputs
   remove = output<void>();
 
+  // signals
+  removing = signal(false);
+
   // Methods
   handleRemove(): void {
-    this.remove.emit();
+    this.removing.set(true);
+    // Delay for animation
+    setTimeout(() => this.remove.emit(), 300);
   }
 }

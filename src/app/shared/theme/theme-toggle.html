@@ -1,7 +1,9 @@
 <div class="toggle">
-  @if (theme() === 'dark') {
-  <button (click)="toggleTheme()"><i class="fa-solid fa-sun"></i></button>
-  } @else {
-  <button (click)="toggleTheme()"><i class="fa-solid fa-moon"></i></button>
-  }
+  <button (click)="toggleTheme()" [ngClass]="animationClass()">
+    <i
+      class="fa-solid"
+      [class.fa-sun]="theme() === 'dark'"
+      [class.fa-moon]="theme() === 'light'"
+    ></i>
+  </button>
 </div>

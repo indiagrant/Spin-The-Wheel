@@ -38,6 +38,7 @@
           placeholder="Enter segment"
           class="segment-input"
           [(ngModel)]="newSegmentLabel"
+          (keyup.enter)="segments().length === 1 && segments()[0].label === '' ? updateFirstSegment() : addSegment()"
         />
         <app-button
           class="add-segment-btn"

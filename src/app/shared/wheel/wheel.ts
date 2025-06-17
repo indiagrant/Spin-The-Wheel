@@ -14,10 +14,6 @@ import { DialogService } from '../dialog/dialog.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
-const SEGMENT_COUNT = 8;
-const SEGMENT_DEGREE = 360 / SEGMENT_COUNT;
-const SEGMENT_LABELS = ['1', '2', '3', '4', '5', '6', '7', '8'];
-
 interface WheelSegment {
   label: string;
   colour: string;
@@ -26,7 +22,6 @@ interface WheelSegment {
 
 @Component({
   selector: 'app-wheel',
-  standalone: true,
   templateUrl: './wheel.html',
   styleUrls: ['./wheel.css'],
   imports: [ButtonComponent, FormsModule],
@@ -62,15 +57,28 @@ export class WheelComponent {
   private angle = computed(() => this.rotation() % 360);
 
   // index of the segment the wheel is currently pointing to
-  readonly selectedSegmentIndex = computed(() => {
-    const normalised = (270 - this.angle()) % 360;
-    return Math.floor(normalised / SEGMENT_DEGREE);
-  });
+  // readonly selectedSegmentIndex = computed(() => {
+  //   const normalised = (270 - this.angle()) % 360;
+  //   return Math.floor(normalised / this.segmentDegree());
+  // });
 
   // label of the segment the wheel is currently pointing to
-  readonly selectedSegment = computed(
-    () => SEGMENT_LABELS[this.selectedSegmentIndex()]
-  );
+  // readonly selectedSegment = computed(() => {
+  //   const index = this.selectedSegmentIndex();
+  //   return this.segments()[index]?.label || '';
+  // });
+
+  readonly selectedSegmentIndex = computed(() => {
+    if (this.segmentCount() === 0) return 0;
+    const normalised = (270 - this.angle()) % 360;
+    return Math.floor(normalised / this.segmentDegree());
+  });
+
+  readonly selectedSegment = computed(() => {
+    const segments = this.segments();
+    const index = this.selectedSegmentIndex();
+    return segments[index]?.label || '';
+  });
 
   constructor() {
     // Initialise wheel with one segment (entire circle)
@@ -95,9 +103,12 @@ export class WheelComponent {
 
   // Methods
   addSegment(): void {
+    const label = this.newSegmentLabel();
+    if (!label) return;
+
     const currentSegments = this.segments();
     const newSegment: WheelSegment = {
-      label: this.newSegmentLabel().trim(),
+      label,
       colour:
         this.segmentColours[
           currentSegments.length % this.segmentColours.length
@@ -158,11 +169,11 @@ export class WheelComponent {
   }
 
   spinWheel() {
-    const spinAmount = Math.ceil(Math.random() * 1000);
+    const spinAmount = Math.ceil(Math.random() * 1000) + 360 * 5; // Random spin between 0 and 1000 degrees + 5 full spins
     this.rotation.update((current) => current + spinAmount);
 
     if (!this.results()) {
-      console.error('Results template is not available');
+      console.error('Results not available');
       return;
     }
     setTimeout(() => {

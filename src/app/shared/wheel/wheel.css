@@ -76,9 +76,9 @@
   border-radius: 50%;
   left: 0;
   top: 0;
-  transform: none !important;
+  transform: none;
   font-size: 24px;
-  clip-path: none !important;
+  clip-path: none;
 }
 
 .arrow {
@@ -96,7 +96,7 @@
 }
 
 .button-container {
-  gap: 1rem;
+  gap: 16px;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, input, output, signal } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 
 @Component({
   selector: 'app-pill',

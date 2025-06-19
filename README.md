@@ -10,21 +10,13 @@ To start a local development server, run:
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+or
 
 ```bash
-ng generate component component-name
+npm start
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
+Once the server is running, open your browser and navigate to `http://localhost:4200/`.
 
 ## Building
 
@@ -34,26 +26,32 @@ To build the project run:
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+or
 
 ```bash
-ng test
+npm run build
 ```
 
-## Running end-to-end tests
+## Important notes
 
-For end-to-end (e2e) testing, run:
+There are two ways to view the results after spinning the wheel:
 
-```bash
-ng e2e
-```
+1. Default (Navigation to Results Page)
+   After the wheel finishes spinning, the application navigates to a separate /results page to display the outcome. This approach was implemented to meet initial requirements.
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+2. Optional (Dialog Window)
+   For a smoother and (ever so slightly) more fun user experience, I have also built a dialog window component to view results.
 
-## Additional Resources
+## How to Switch Between Views
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+To switch between the two result-view modes, update the spinWheel() and spinToTargetSegment() methods in shared/wheel/wheel.ts:
+
+To Use the Dialog View:
+Uncomment the dialogService.openDialog(...) block.
+
+Comment out the router.navigate(...) block.
+
+To Use the Navigation View (Default):
+Comment out the dialogService.openDialog(...) block.
+
+Uncomment the router.navigate(...) block.

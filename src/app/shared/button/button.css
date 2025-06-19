@@ -8,8 +8,3 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
-
-.button__wrapper:not(:disabled)hover {
-  opacity: 0.8;
-  cursor: pointer;
-}

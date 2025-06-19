@@ -200,13 +200,13 @@ export class WheelComponent {
     }
     setTimeout(() => {
       this.resultSegment.set(this.selectedSegment());
-      this.dialogService.openDialog({
-        template: this.results()!,
-        title: '🎉Results:',
-      });
-      // this.router.navigate(['/results'], {
-      //   queryParams: { segment: this.selectedSegment(), type: 'random' },
+      // this.dialogService.openDialog({
+      //   template: this.results()!,
+      //   title: '🎉Results:',
       // });
+      this.router.navigate(['/results'], {
+        queryParams: { segment: this.selectedSegment(), type: 'random' },
+      });
     }, 4000); // Wait for the spin animation to finish + 1000ms for added suspense
   }
 
@@ -231,7 +231,6 @@ export class WheelComponent {
     //calculate target angle
     const segmentDegree = this.segmentDegree();
     const segmentCentreAngle = targetIndex * segmentDegree + segmentDegree / 2;
-
     const targetRotation = (360 - segmentCentreAngle) % 360;
 
     // add 5 spins
@@ -252,13 +251,13 @@ export class WheelComponent {
 
     setTimeout(() => {
       this.resultSegment.set(originalTargetLabel);
-      this.dialogService.openDialog({
-        template: this.results()!,
-        title: '🎉Results:',
-      });
-      // this.router.navigate(['/results'], {
-      //   queryParams: { segment: originalTargetLabel, type: 'predetermined' },
+      // this.dialogService.openDialog({
+      //   template: this.results()!,
+      //   title: '🎉Results:',
       // });
+      this.router.navigate(['/results'], {
+        queryParams: { segment: originalTargetLabel, type: 'predetermined' },
+      });
     }, 4000);
   }
 

@@ -1,8 +1,5 @@
-import { Component, inject, TemplateRef, viewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { WheelComponent } from '../../shared/wheel/wheel';
-import { DialogService } from '../../shared/dialog/dialog.service';
-import { ButtonComponent } from '../../shared/button/button';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-wheel-page',

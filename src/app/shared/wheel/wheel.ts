@@ -33,8 +33,7 @@ export class WheelComponent {
   router = inject<Router>(Router);
 
   // Properties
-  @ViewChild('wheelContainer', { static: true })
-  wheelContainer!: ElementRef<HTMLDivElement>;
+  wheelContainer = viewChild<ElementRef<HTMLDivElement>>('wheelContainer');
   results = viewChild<TemplateRef<void>>('results');
   private segmentColours = [
     '#ff99c8', // pink
@@ -93,8 +92,10 @@ export class WheelComponent {
     // rotate wheel using the DOM
     effect(() => {
       const degrees = this.rotation();
-      if (this.wheelContainer) {
-        const el = this.wheelContainer.nativeElement;
+      const ref = this.wheelContainer();
+
+      if (ref) {
+        const el = ref.nativeElement;
         el.style.transition = 'transform 3s ease-out';
         el.style.transform = `rotate(${degrees}deg)`;
       }

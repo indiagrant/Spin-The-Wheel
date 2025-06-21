@@ -1,7 +1,16 @@
 <section class="main-container">
   <section class="left-side">
     <div class="wheel-container">
+      <div class="arrow"></div>
+      <i class="fa-solid fa-arrow-down arrow"></i>
       <canvas #wheel width="500" height="500" class="wheel"> </canvas>
     </div>
   </section>
 </section>
+<div class="button-container">
+  <app-button label="Random Spin" (btnClick)="testSpin()"> </app-button>
+</div>
+
+<div>
+  <p>Selected: {{selectedSegment()}}</p>
+</div>

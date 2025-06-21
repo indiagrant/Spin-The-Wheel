@@ -6,6 +6,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { ButtonComponent } from '../button/button';
 
 interface WheelSegment {
   label: string;
@@ -15,7 +16,7 @@ interface WheelSegment {
 
 @Component({
   selector: 'app-wheel-canvas',
-  imports: [],
+  imports: [ButtonComponent],
   templateUrl: './wheel-canvas.html',
   styleUrl: './wheel-canvas.css',
 })
@@ -41,10 +42,26 @@ export class WheelCanvasComponent {
 
   // signals
   segments = signal<WheelSegment[]>([]);
+  private currentRotation = signal(0); // total degrees of rotation
+  private isSpinning = signal(false);
 
   // computed properties
   segmentCount = computed(() => Math.max(1, this.segments().length));
   segmentAngle = computed(() => 360 / this.segmentCount());
+
+  // Calculate which segment the arrow is pointing to
+  selectedSegmentIndex = computed(() => {
+    const rotation = this.currentRotation() % 360;
+    const adjustedRotation = (360 - rotation) % 360;
+    const segmentAngle = this.segmentAngle();
+    const index = Math.floor(adjustedRotation / segmentAngle);
+    return Math.min(index, this.segments().length - 1);
+  });
+
+  selectedSegment = computed(() => {
+    const index = this.selectedSegmentIndex();
+    return this.segments()[index]?.label || '';
+  });
 
   constructor() {
     // test segments
@@ -65,7 +82,17 @@ export class WheelCanvasComponent {
         id: this.generateId(),
       },
       {
-        label: 'Segment 3',
+        label: 'Segment 4',
+        colour: this.segmentColours[2],
+        id: this.generateId(),
+      },
+      {
+        label: 'Segment 5',
+        colour: this.segmentColours[2],
+        id: this.generateId(),
+      },
+      {
+        label: 'Segment 6',
         colour: this.segmentColours[2],
         id: this.generateId(),
       },
@@ -76,6 +103,18 @@ export class WheelCanvasComponent {
       this.segments();
       this.drawWheel();
     });
+
+    // Effect to handle spinning animation
+    effect(() => {
+      const degrees = this.currentRotation();
+      const canvasEl = this.canvas();
+
+      if (canvasEl) {
+        const el = canvasEl.nativeElement;
+        el.style.transition = 'transform 3s ease-out';
+        el.style.transform = `rotate(${degrees}deg)`;
+      }
+    });
   }
 
   ngAfterViewInit() {
@@ -85,12 +124,27 @@ export class WheelCanvasComponent {
 
       this.drawWheel();
       this.drawSegments();
-      this.drawArrow();
     }
   }
 
   private generateId(): string {
     return Math.random().toString(36).substring(2);
+  }
+
+  testSpin() {
+    if (this.isSpinning()) return;
+
+    //  random spin amount
+    const spinAmount = Math.ceil(Math.random() * 1000) + 360 * 5;
+
+    // update rotation state
+    this.currentRotation.update((current) => current + spinAmount);
+    this.isSpinning.set(true);
+
+    // stop spinning after animation completes
+    setTimeout(() => {
+      this.isSpinning.set(false);
+    }, 3000);
   }
 
   private drawWheel() {
@@ -164,22 +218,5 @@ export class WheelCanvasComponent {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(label, x, y);
-  }
-
-  private drawArrow() {
-    if (!this.ctx) return;
-
-    const ctx = this.ctx;
-    // draw arrow at the top of the wheel
-    ctx.beginPath();
-    ctx.moveTo(this.centreX, this.centreY - this.radius + 5); // tip of the arrow
-    ctx.lineTo(this.centreX - 15, this.centreY - this.radius - 25); // left side
-    ctx.lineTo(this.centreX + 15, this.centreY - this.radius - 25); // right side
-    ctx.closePath();
-    ctx.fillStyle = '#dc3545';
-    ctx.fill();
-    ctx.strokeStyle = '#dee2e6';
-    ctx.lineWidth = 2;
-    ctx.stroke();
   }
 }

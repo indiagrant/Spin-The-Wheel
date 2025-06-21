@@ -7,6 +7,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ButtonComponent } from '../button/button';
+import { FormsModule } from '@angular/forms';
 
 interface WheelSegment {
   label: string;
@@ -16,7 +17,7 @@ interface WheelSegment {
 
 @Component({
   selector: 'app-wheel-canvas',
-  imports: [ButtonComponent],
+  imports: [ButtonComponent, FormsModule],
   templateUrl: './wheel-canvas.html',
   styleUrl: './wheel-canvas.css',
 })
@@ -42,8 +43,9 @@ export class WheelCanvasComponent {
 
   // signals
   segments = signal<WheelSegment[]>([]);
+  newSegmentLabel = signal<string>('');
   private currentRotation = signal(0); // total degrees of rotation
-  private isSpinning = signal(false);
+  isSpinning = signal(false);
 
   // computed properties
   segmentCount = computed(() => Math.max(1, this.segments().length));
@@ -64,36 +66,11 @@ export class WheelCanvasComponent {
   });
 
   constructor() {
-    // test segments
+    // start with one empty segment
     this.segments.set([
       {
-        label: 'Segment 1',
+        label: '',
         colour: this.segmentColours[0],
-        id: this.generateId(),
-      },
-      {
-        label: 'Segment 2',
-        colour: this.segmentColours[1],
-        id: this.generateId(),
-      },
-      {
-        label: 'Segment 3',
-        colour: this.segmentColours[2],
-        id: this.generateId(),
-      },
-      {
-        label: 'Segment 4',
-        colour: this.segmentColours[2],
-        id: this.generateId(),
-      },
-      {
-        label: 'Segment 5',
-        colour: this.segmentColours[2],
-        id: this.generateId(),
-      },
-      {
-        label: 'Segment 6',
-        colour: this.segmentColours[2],
         id: this.generateId(),
       },
     ]);
@@ -123,12 +100,54 @@ export class WheelCanvasComponent {
       this.ctx = canvasElement.getContext('2d');
 
       this.drawWheel();
-      this.drawSegments();
     }
   }
 
   private generateId(): string {
     return Math.random().toString(36).substring(2);
+  }
+
+  // Segment management methods
+  addSegment(): void {
+    const label = this.newSegmentLabel().trim();
+    if (!label) return;
+
+    const currentSegments = this.segments();
+    const newSegment: WheelSegment = {
+      label,
+      colour:
+        this.segmentColours[
+          currentSegments.length % this.segmentColours.length
+        ],
+      id: this.generateId(),
+    };
+
+    this.segments.update((segments) => [...segments, newSegment]);
+    this.newSegmentLabel.set('');
+  }
+
+  updateFirstSegment(): void {
+    const label = this.newSegmentLabel().trim();
+    if (!label) return;
+
+    this.segments.update((segments) => {
+      if (segments.length === 1 && segments[0].label === '') {
+        // Update the first empty segment with label
+        return [{ ...segments[0], label }];
+      } else {
+        // Add as new segment
+        return [
+          ...segments,
+          {
+            label,
+            colour:
+              this.segmentColours[segments.length % this.segmentColours.length],
+            id: this.generateId(),
+          },
+        ];
+      }
+    });
+    this.newSegmentLabel.set('');
   }
 
   testSpin() {
@@ -162,6 +181,9 @@ export class WheelCanvasComponent {
     ctx.strokeStyle = '#dee2e6';
     ctx.lineWidth = 2;
     ctx.stroke();
+
+    // draw segments
+    this.drawSegments();
   }
 
   private drawSegments() {

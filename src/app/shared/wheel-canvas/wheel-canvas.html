@@ -1,16 +1,45 @@
 <section class="main-container">
+  <!-- Left-side spinner section -->
   <section class="left-side">
     <div class="wheel-container">
-      <div class="arrow"></div>
       <i class="fa-solid fa-arrow-down arrow"></i>
       <canvas #wheel width="500" height="500" class="wheel"> </canvas>
     </div>
+
+    <div class="button-container">
+      <app-button
+        label="Random Spin"
+        (btnClick)="testSpin()"
+        [disabled]="segmentCount() === 0 || (segmentCount() === 1 && segments()[0].label === '')"
+      ></app-button>
+    </div>
+
+    <div>
+      <p>Selected: {{selectedSegment()}}</p>
+    </div>
+  </section>
+
+  <!-- Right side segment inputs -->
+  <section class="right-side">
+    <section class="input-container">
+      <div class="input-group">
+        <input
+          type="text"
+          placeholder="Enter segment"
+          class="segment-input"
+          [(ngModel)]="newSegmentLabel"
+        />
+        <app-button
+          class="add-segment-btn"
+          label="Add"
+          (btnClick)="segments().length === 1 && segments()[0].label === '' ? updateFirstSegment() : addSegment()"
+          [disabled]="!newSegmentLabel().trim()"
+        ></app-button>
+      </div>
+    </section>
+
+    <section class="segments-info">
+      <p>Segments: {{ segmentCount() }}/7</p>
+    </section>
   </section>
 </section>
-<div class="button-container">
-  <app-button label="Random Spin" (btnClick)="testSpin()"> </app-button>
-</div>
-
-<div>
-  <p>Selected: {{selectedSegment()}}</p>
-</div>

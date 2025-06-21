@@ -7,7 +7,7 @@ import { Component, ElementRef, viewChild } from '@angular/core';
   styleUrl: './wheel-canvas.css',
 })
 export class WheelCanvasComponent {
-  // canvas properties
+  // canvas
   private canvas = viewChild<ElementRef<HTMLCanvasElement>>('wheel');
   private ctx: CanvasRenderingContext2D | null = null;
 
@@ -22,8 +22,10 @@ export class WheelCanvasComponent {
       this.ctx = canvasElement.getContext('2d');
 
       this.drawWheel();
+      this.drawArrow();
     }
   }
+
   private drawWheel() {
     if (!this.ctx) return;
 
@@ -35,6 +37,23 @@ export class WheelCanvasComponent {
     ctx.beginPath();
     ctx.arc(this.centreX, this.centreY, this.radius, 0, Math.PI * 2);
     ctx.fillStyle = '#f8f9fa';
+    ctx.fill();
+    ctx.strokeStyle = '#dee2e6';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+
+  private drawArrow() {
+    if (!this.ctx) return;
+
+    const ctx = this.ctx;
+    // draw arrow at the top of the wheel
+    ctx.beginPath();
+    ctx.moveTo(this.centreX, this.centreY - this.radius + 5); // tip of the arrow
+    ctx.lineTo(this.centreX - 15, this.centreY - this.radius - 25); // left side
+    ctx.lineTo(this.centreX + 15, this.centreY - this.radius - 25); // right side
+    ctx.closePath();
+    ctx.fillStyle = '#dc3545';
     ctx.fill();
     ctx.strokeStyle = '#dee2e6';
     ctx.lineWidth = 2;

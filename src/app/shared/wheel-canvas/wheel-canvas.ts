@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { ButtonComponent } from '../button/button';
 import { FormsModule } from '@angular/forms';
+import { PillComponent } from '../pill/pill';
 
 interface WheelSegment {
   label: string;
@@ -17,7 +18,7 @@ interface WheelSegment {
 
 @Component({
   selector: 'app-wheel-canvas',
-  imports: [ButtonComponent, FormsModule],
+  imports: [ButtonComponent, FormsModule, PillComponent],
   templateUrl: './wheel-canvas.html',
   styleUrl: './wheel-canvas.css',
 })
@@ -148,6 +149,22 @@ export class WheelCanvasComponent {
       }
     });
     this.newSegmentLabel.set('');
+  }
+
+  removeSegment(id: string): void {
+    this.segments.update((segments) => {
+      const filtered = segments.filter((s) => s.id !== id);
+      // Always keep at least one segment
+      return filtered.length > 0
+        ? filtered
+        : [
+            {
+              label: '',
+              colour: this.segmentColours[0],
+              id: this.generateId(),
+            },
+          ];
+    });
   }
 
   testSpin() {

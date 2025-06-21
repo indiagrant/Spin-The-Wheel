@@ -82,10 +82,23 @@
   min-width: 200px;
 }
 
-.segments-info {
+.segments-list {
+  margin-bottom: 20px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.segments-list h3 {
   text-align: center;
-  font-size: 24px;
-  color: inherit;
+  margin-bottom: 30px;
+}
+
+.segment-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
 }
 
 /* styling for mobile screen */
@@ -114,5 +127,10 @@
   .segment-input {
     min-width: auto;
     width: 100%;
+  }
+
+  .segment-items {
+    flex-direction: column;
+    align-items: center;
   }
 }

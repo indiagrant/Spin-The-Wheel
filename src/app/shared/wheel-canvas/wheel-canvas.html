@@ -38,8 +38,21 @@
       </div>
     </section>
 
-    <section class="segments-info">
-      <p>Segments: {{ segmentCount() }}/7</p>
+    @if (segments().length > 1 || (segments().length === 1 &&
+    segments()[0].label !== '')) {
+    <section class="segments-list">
+      <h3>Current Segments ({{ segmentCount() }}):</h3>
+      <div class="segment-items">
+        @for (segment of segments(); track segment.id) { @if (segment.label !==
+        '') {
+        <app-pill
+          [label]="segment.label"
+          [colour]="segment.colour"
+          (remove)="removeSegment(segment.id)"
+        ></app-pill>
+        } }
+      </div>
     </section>
+    }
   </section>
 </section>

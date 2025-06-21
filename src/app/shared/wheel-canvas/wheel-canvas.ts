@@ -3,12 +3,16 @@ import {
   computed,
   effect,
   ElementRef,
+  inject,
   signal,
+  TemplateRef,
   viewChild,
 } from '@angular/core';
 import { ButtonComponent } from '../button/button';
 import { FormsModule } from '@angular/forms';
 import { PillComponent } from '../pill/pill';
+import { Router } from '@angular/router';
+import { DialogService } from '../dialog/dialog.service';
 
 interface WheelSegment {
   label: string;
@@ -23,9 +27,14 @@ interface WheelSegment {
   styleUrl: './wheel-canvas.css',
 })
 export class WheelCanvasComponent {
-  // canvas
+  // DI
+  private router = inject<Router>(Router);
+  private dialogService = inject<DialogService>(DialogService);
+
+  // References
   private canvas = viewChild<ElementRef<HTMLCanvasElement>>('wheel');
   private ctx: CanvasRenderingContext2D | null = null;
+  results = viewChild<TemplateRef<void>>('results');
 
   // wheel properties
   private readonly centreX = 250;
@@ -45,8 +54,10 @@ export class WheelCanvasComponent {
   // signals
   segments = signal<WheelSegment[]>([]);
   newSegmentLabel = signal<string>('');
-  private currentRotation = signal(0); // total degrees of rotation
+  targetSegmentLabel = signal<string>(''); // For pre-determined spin
+  showTargetInput = signal<boolean>(false); // Toggle for pre-determined spin input
   isSpinning = signal(false);
+  private currentRotation = signal(0); // total degrees of rotation
 
   // computed properties
   segmentCount = computed(() => Math.max(1, this.segments().length));
@@ -64,6 +75,14 @@ export class WheelCanvasComponent {
   selectedSegment = computed(() => {
     const index = this.selectedSegmentIndex();
     return this.segments()[index]?.label || '';
+  });
+
+  // Check if target segment exists (for pre-determined spin)
+  targetSegmentExists = computed(() => {
+    const target = this.targetSegmentLabel().toLowerCase().trim();
+    return this.segments().some(
+      (segment) => segment.label.toLowerCase() === target
+    );
   });
 
   constructor() {
@@ -104,8 +123,14 @@ export class WheelCanvasComponent {
     }
   }
 
+  // utility methods
   private generateId(): string {
     return Math.random().toString(36).substring(2);
+  }
+
+  navigateToLandingPage(): void {
+    this.dialogService.closeDialog();
+    this.router.navigate(['/']);
   }
 
   // Segment management methods
@@ -113,12 +138,11 @@ export class WheelCanvasComponent {
     const label = this.newSegmentLabel().trim();
     if (!label) return;
 
-    const currentSegments = this.segments();
     const newSegment: WheelSegment = {
       label,
       colour:
         this.segmentColours[
-          currentSegments.length % this.segmentColours.length
+          this.segments().length % this.segmentColours.length
         ],
       id: this.generateId(),
     };
@@ -152,37 +176,78 @@ export class WheelCanvasComponent {
   }
 
   removeSegment(id: string): void {
-    this.segments.update((segments) => {
-      const filtered = segments.filter((s) => s.id !== id);
-      // Always keep at least one segment
-      return filtered.length > 0
-        ? filtered
-        : [
-            {
-              label: '',
-              colour: this.segmentColours[0],
-              id: this.generateId(),
-            },
-          ];
-    });
+    this.segments.update((segments) => segments.filter((s) => s.id !== id));
   }
 
-  testSpin() {
+  // Wheel spin methods
+  spinWheel(): void {
     if (this.isSpinning()) return;
 
-    //  random spin amount
-    const spinAmount = Math.ceil(Math.random() * 1000) + 360 * 5;
+    const baseRotation = 360 * 5; // 5 full rotations
+    const randomRotation = Math.random() * 360;
+    const totalRotation = baseRotation + randomRotation;
 
-    // update rotation state
-    this.currentRotation.update((current) => current + spinAmount);
+    this.currentRotation.update((current) => current + totalRotation);
     this.isSpinning.set(true);
 
-    // stop spinning after animation completes
+    // Note: comment/uncomment router/dialog block for different results views
     setTimeout(() => {
       this.isSpinning.set(false);
-    }, 3000);
+      this.router.navigate(['/results'], {
+        queryParams: { segment: this.selectedSegment() },
+      });
+      // this.dialogService.openDialog({
+      //   template: this.results()!,
+      //   title: '🎉 Results:',
+      // });
+    }, 4000);
   }
 
+  spinToTargetSegment(): void {
+    if (this.isSpinning()) return;
+
+    const targetLabel = this.targetSegmentLabel().toLowerCase().trim();
+    const targetIndex = this.segments().findIndex(
+      (segment) => segment.label.toLowerCase() === targetLabel
+    );
+
+    if (targetIndex === -1) return;
+
+    const segmentAngle = this.segmentAngle();
+    const targetSegmentCentre = targetIndex * segmentAngle + segmentAngle / 2;
+    const baseRotation = 360 * 5; // 5 full rotations
+
+    // Calculate rotation needed to align target segment with arrow (top)
+    const finalRotation = baseRotation + (360 - targetSegmentCentre);
+
+    this.currentRotation.update((current) => current + finalRotation);
+    this.isSpinning.set(true);
+
+    // Hide target input
+    this.showTargetInput.set(false);
+    this.targetSegmentLabel.set('');
+
+    // Note: comment/uncomment router/dialog block for different results views
+    setTimeout(() => {
+      this.isSpinning.set(false);
+      this.router.navigate(['/results'], {
+        queryParams: { segment: this.selectedSegment() },
+      });
+      // this.dialogService.openDialog({
+      //   template: this.results()!,
+      //   title: '🎉 Results:',
+      // });
+    }, 4000);
+  }
+
+  toggleTargetInput(): void {
+    this.showTargetInput.update((show) => !show);
+    if (!this.showTargetInput()) {
+      this.targetSegmentLabel.set('');
+    }
+  }
+
+  // Drawing the wheel methods
   private drawWheel() {
     if (!this.ctx) return;
 

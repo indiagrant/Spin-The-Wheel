@@ -9,14 +9,32 @@
     <div class="button-container">
       <app-button
         label="Random Spin"
-        (btnClick)="testSpin()"
-        [disabled]="segmentCount() === 0 || (segmentCount() === 1 && segments()[0].label === '')"
+        (btnClick)="spinWheel()"
+        [disabled]="isSpinning() || segmentCount() === 0 || (segmentCount() === 1 && segments()[0].label === '')"
+      >
+      </app-button>
+      <app-button
+        label="Pre-Determined Spin"
+        (btnClick)="toggleTargetInput()"
+        [disabled]="isSpinning() || segmentCount() === 0 || (segmentCount() === 1 && segments()[0].label === '')"
       ></app-button>
     </div>
 
-    <div>
-      <p>Selected: {{selectedSegment()}}</p>
+    @if (showTargetInput()) {
+    <div class="target-input-container">
+      <input
+        type="text"
+        placeholder="Enter segment to spin to"
+        class="target-input"
+        [(ngModel)]="targetSegmentLabel"
+      />
+      <app-button
+        label="Spin"
+        (btnClick)="spinToTargetSegment()"
+        [disabled]="!targetSegmentLabel().trim() || !targetSegmentExists()"
+      ></app-button>
     </div>
+    }
   </section>
 
   <!-- Right side segment inputs -->
@@ -56,3 +74,16 @@
     }
   </section>
 </section>
+
+<ng-template #results>
+  <div class="results-container">
+    <p>You have spun:</p>
+    <h3>{{selectedSegment()}}</h3>
+  </div>
+  <div class="button-container">
+    <app-button
+      label="Spin Again"
+      (btnClick)="navigateToLandingPage()"
+    ></app-button>
+  </div>
+</ng-template>

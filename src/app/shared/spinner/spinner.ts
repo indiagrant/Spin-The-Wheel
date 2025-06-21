@@ -21,12 +21,12 @@ interface WheelSegment {
 }
 
 @Component({
-  selector: 'app-wheel-canvas',
+  selector: 'app-spinner',
   imports: [ButtonComponent, FormsModule, PillComponent],
-  templateUrl: './wheel-canvas.html',
-  styleUrl: './wheel-canvas.css',
+  templateUrl: './spinner.html',
+  styleUrl: './spinner.css',
 })
-export class WheelCanvasComponent {
+export class SpinnerComponent {
   // DI
   private router = inject<Router>(Router);
   private dialogService = inject<DialogService>(DialogService);
@@ -45,6 +45,8 @@ export class WheelCanvasComponent {
     '#ff99c8', // pink
     '#fcf6bd', // yellow
     '#d0f4de', // green
+    '#ffadad', // light red
+
     '#a9def9', // light blue
     '#e4c1f9', // purple
     '#fde4cf', // peach

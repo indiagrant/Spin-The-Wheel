@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { WheelComponent } from '../../shared/wheel/wheel';
-import { WheelCanvasComponent } from '../../shared/wheel-canvas/wheel-canvas';
+import { SpinnerComponent } from '../../shared/spinner/spinner';
 
 @Component({
   selector: 'app-wheel-page',
-  imports: [WheelComponent, WheelCanvasComponent],
+  imports: [SpinnerComponent],
   templateUrl: './wheel-page.html',
   styleUrl: './wheel-page.css',
 })

@@ -64,6 +64,11 @@ export class WheelCanvasComponent {
         colour: this.segmentColours[2],
         id: this.generateId(),
       },
+      {
+        label: 'Segment 3',
+        colour: this.segmentColours[2],
+        id: this.generateId(),
+      },
     ]);
 
     // redraw the wheel when segments change
@@ -133,7 +138,32 @@ export class WheelCanvasComponent {
       ctx.strokeStyle = '#ffff';
       ctx.lineWidth = 3;
       ctx.stroke();
+
+      if (segment.label) {
+        this.drawSegmentLabel(segment.label, index, segmentAngle);
+      }
     });
+  }
+
+  private drawSegmentLabel(label: string, index: number, segmentAngle: number) {
+    if (!this.ctx) return;
+
+    const ctx = this.ctx;
+    // calculate angle for centre of the segment
+    const angle = ((index * segmentAngle + segmentAngle / 2) * Math.PI) / 180;
+    const labelRadius = this.radius * 0.7;
+
+    // calculate label position
+    const x = this.centreX + Math.cos(angle) * labelRadius;
+    const y = this.centreY + Math.sin(angle) * labelRadius;
+
+    ctx.save();
+
+    ctx.fillStyle = '#333';
+    ctx.font = '16px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(label, x, y);
   }
 
   private drawArrow() {

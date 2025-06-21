@@ -1,4 +1,17 @@
-import { Component, ElementRef, viewChild } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  ElementRef,
+  signal,
+  viewChild,
+} from '@angular/core';
+
+interface WheelSegment {
+  label: string;
+  colour: string;
+  id: string;
+}
 
 @Component({
   selector: 'app-wheel-canvas',
@@ -16,14 +29,63 @@ export class WheelCanvasComponent {
   private readonly centreY = 250;
   private readonly radius = 230;
 
+  private segmentColours = [
+    '#ff99c8', // pink
+    '#fcf6bd', // yellow
+    '#d0f4de', // green
+    '#a9def9', // light blue
+    '#e4c1f9', // purple
+    '#fde4cf', // peach
+    '#98f5e1', // teal
+  ];
+
+  // signals
+  segments = signal<WheelSegment[]>([]);
+
+  // computed properties
+  segmentCount = computed(() => Math.max(1, this.segments().length));
+  segmentAngle = computed(() => 360 / this.segmentCount());
+
+  constructor() {
+    // test segments
+    this.segments.set([
+      {
+        label: 'Segment 1',
+        colour: this.segmentColours[0],
+        id: this.generateId(),
+      },
+      {
+        label: 'Segment 2',
+        colour: this.segmentColours[1],
+        id: this.generateId(),
+      },
+      {
+        label: 'Segment 3',
+        colour: this.segmentColours[2],
+        id: this.generateId(),
+      },
+    ]);
+
+    // redraw the wheel when segments change
+    effect(() => {
+      this.segments();
+      this.drawWheel();
+    });
+  }
+
   ngAfterViewInit() {
     const canvasElement = this.canvas()?.nativeElement;
     if (canvasElement) {
       this.ctx = canvasElement.getContext('2d');
 
       this.drawWheel();
+      this.drawSegments();
       this.drawArrow();
     }
+  }
+
+  private generateId(): string {
+    return Math.random().toString(36).substring(2);
   }
 
   private drawWheel() {
@@ -41,6 +103,37 @@ export class WheelCanvasComponent {
     ctx.strokeStyle = '#dee2e6';
     ctx.lineWidth = 2;
     ctx.stroke();
+  }
+
+  private drawSegments() {
+    if (!this.ctx) return;
+
+    const ctx = this.ctx;
+    const segments = this.segments();
+    const segmentAngle = this.segmentAngle();
+
+    segments.forEach((segment, index) => {
+      // calculate start and end angles for each segment
+      const startAngle = (index * segmentAngle * Math.PI) / 180; // convert degrees to radians
+      const endAngle = ((index + 1) * segmentAngle * Math.PI) / 180;
+
+      // draw segment as a slice of the circle
+      ctx.beginPath();
+      ctx.moveTo(this.centreX, this.centreY);
+      ctx.arc(
+        this.centreX,
+        this.centreY,
+        this.radius - 2,
+        startAngle,
+        endAngle
+      );
+      ctx.closePath();
+      ctx.fillStyle = segment.colour;
+      ctx.fill();
+      ctx.strokeStyle = '#ffff';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+    });
   }
 
   private drawArrow() {

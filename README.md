@@ -4,7 +4,7 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 
 ## Development server
 
-To start a local development server, run:
+To start the app locally:
 
 ```bash
 ng serve
@@ -18,21 +18,7 @@ npm start
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`.
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-or
-
-```bash
-npm run build
-```
-
-## Important notes
+## Result Display Options
 
 There are two ways to view the results after spinning the wheel:
 
@@ -44,7 +30,7 @@ There are two ways to view the results after spinning the wheel:
 
 ## How to Switch Between Views
 
-To switch between the two result-view modes, update the spinWheel() and spinToTargetSegment() methods in shared/wheel/wheel.ts:
+In shared/spinner/spinner.ts, modify the spinWheel() and spinToTargetSegment() methods:
 
 To Use the Dialog View:
 Uncomment the dialogService.openDialog(...) block.
@@ -55,3 +41,26 @@ To Use the Navigation View (Default):
 Comment out the dialogService.openDialog(...) block.
 
 Uncomment the router.navigate(...) block.
+
+## Development Journey
+
+This app was built iteratively, prioritising simplicity first and adding complexity gradually.
+
+✅ What Went Well
+Component architecture: Broke down functionality into clean, reusable Angular standalone components using signals.
+
+Iterative development: Started with a hardcoded version of the wheel to quickly validate concept. Gradually moved to a dynamic version with user-defined inputs and result handling.
+
+🧩 What Was Challenging
+Calculating correct angles for dynamic segments took more debugging than expected - the best implementation of this was using HTML <canvas> element.
+
+Spin mechanics: Both random and pre-determined spins work inconsistently — final segment landing logic needs refinement.
+
+📈 Ideas for Future Improvements
+If I had more time, I would:
+
+Add a maximum segment count and enforce a max character limit on labels for better layout consistency.
+
+Introduce dynamic colour assignment to segments to improve visual distinction and clarity.
+
+Debug and fix spin rotation calculations.

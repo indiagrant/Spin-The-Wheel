@@ -32,12 +32,14 @@ There are two ways to view the results after spinning the wheel:
 
 In shared/spinner/spinner.ts, modify the spinWheel() and spinToTargetSegment() methods:
 
-🚀 To Use the Dialog View:
+👉 To Use the Dialog View:
+
 Uncomment the dialogService.openDialog(...) block.
 
 Comment out the router.navigate(...) block.
 
-To Use the Navigation View (Default):
+👉 To Use the Navigation View (Default):
+
 Comment out the dialogService.openDialog(...) block.
 
 Uncomment the router.navigate(...) block.

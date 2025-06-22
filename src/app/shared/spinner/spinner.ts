@@ -224,7 +224,9 @@ export class SpinnerComponent {
   spinToTargetSegment(): void {
     if (this.isSpinning()) return;
 
+    // find the segment the user wants to spin to - convert to lowercase and trim whitespace
     const targetLabel = this.targetSegmentLabel().toLowerCase().trim();
+    // match target label with existing segment labels, gives us index of the target segment
     const targetIndex = this.segments().findIndex(
       (segment) => segment.label.toLowerCase() === targetLabel
     );
@@ -234,12 +236,14 @@ export class SpinnerComponent {
     const segmentAngle = this.segmentAngle();
     // step 1: calculate where the target segmen'ts centre is
     // segments start at 0degs (3 o'clock) and go counter-clockwise
-    // index 0 gets the last segment (first added and highest angle range) so need to reverse the calculation
+    // index 0 gets the last segment (first added and highest angle range) so need to flip the index
     const segmentStartAngle =
       (this.segments().length - 1 - targetIndex) * segmentAngle;
+    // find the centre of the target segment (halfway through the segment)
     const targetSegmentCentre = segmentStartAngle + segmentAngle / 2;
 
-    // step 2: calculate rotation needed to bring thise centre to pointer position
+    // step 2: calculate rotation needed to bring this centre to pointer position
+    // pointer is at 12 o'clock (90degs), we want centre to be at 90degs
     const rotationNeeded = (targetSegmentCentre - 90 + 360) % 360;
     const baseRotation = 360 * 5; // 5 full rotations
     const finalRotation = baseRotation + rotationNeeded;
@@ -300,8 +304,8 @@ export class SpinnerComponent {
     const segmentAngle = this.segmentAngle();
 
     segments.forEach((segment, index) => {
-      // calculate start and end angles for each segment
-      const startAngle = (index * segmentAngle * Math.PI) / 180; // convert degrees to radians
+      // converts degrees to radians
+      const startAngle = (index * segmentAngle * Math.PI) / 180;
       const endAngle = ((index + 1) * segmentAngle * Math.PI) / 180;
 
       // draw segment as a slice of the circle

@@ -58,11 +58,9 @@ Iterative development: Started with a hardcoded version of the wheel to quickly 
 
 Wheel segment layout: Calculating correct angles for dynamic segments took more debugging than expected. After testing several approaches, the most effective solution was to use the HTML < canvas > element.
 
-Spin mechanics: Both random and pre-determined spins work inconsistently — final segment landing logic needs refinement.
+Spin mechanics: Both random and pre-determined spins proved challenging
 
 📈 Ideas for Future Improvements
-
-Debug and fix spin rotation calculations.
 
 Enforce a max character limit on labels for better layout consistency.
 

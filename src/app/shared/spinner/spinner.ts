@@ -68,7 +68,11 @@ export class SpinnerComponent {
   // Calculate which segment the arrow is pointing to
   selectedSegmentIndex = computed(() => {
     const rotation = this.currentRotation() % 360;
-    const adjustedRotation = (360 - rotation) % 360;
+    //pointer is at 12 o'clock (90degs) and segments start at 0degs (3 o'clock)
+    // adjust by 90degs to align with where the pointer actually is
+    const pointerAdjustedRotation = (rotation + 90) % 360;
+    // reverse the direction since the wheels spins clockwise
+    const adjustedRotation = (360 - pointerAdjustedRotation) % 360;
     const segmentAngle = this.segmentAngle();
     const index = Math.floor(adjustedRotation / segmentAngle);
     return Math.min(index, this.segments().length - 1);

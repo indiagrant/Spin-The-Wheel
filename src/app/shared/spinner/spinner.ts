@@ -46,7 +46,6 @@ export class SpinnerComponent {
     '#fcf6bd', // yellow
     '#d0f4de', // green
     '#ffadad', // light red
-
     '#a9def9', // light blue
     '#e4c1f9', // purple
     '#fde4cf', // peach
@@ -59,7 +58,7 @@ export class SpinnerComponent {
   targetSegmentLabel = signal<string>(''); // For pre-determined spin
   showTargetInput = signal<boolean>(false); // Toggle for pre-determined spin input
   isSpinning = signal(false);
-  private currentRotation = signal(0); // total degrees of rotation
+  private currentRotation = signal(0);
 
   // computed properties
   segmentCount = computed(() => Math.max(1, this.segments().length));
@@ -67,14 +66,27 @@ export class SpinnerComponent {
 
   // Calculate which segment the arrow is pointing to
   selectedSegmentIndex = computed(() => {
+    // step 1: calculate the remaining rotation (not the full spins)
     const rotation = this.currentRotation() % 360;
-    //pointer is at 12 o'clock (90degs) and segments start at 0degs (3 o'clock)
-    // adjust by 90degs to align with where the pointer actually is
+
+    // step 2: adjust for pointer position
+    // pointer is at 12 o'clock (90degs) and segments start at 0degs (3 o'clock)
+    // add 90degs to move to where the pointer actually is
     const pointerAdjustedRotation = (rotation + 90) % 360;
-    // reverse the direction since the wheels spins clockwise
+
+    // step 3: reverse the direction
+    // wheel spins clockwise but segments move counter-clockwise from the pointer view
+    // subtract from 360 to get the opposing angle (what's left of the 360 degree circle)
     const adjustedRotation = (360 - pointerAdjustedRotation) % 360;
+
+    // step 4: get the size of each segment from signal value
     const segmentAngle = this.segmentAngle();
+
+    // step 5: calculate the index of the segment the pointer is on
+    // divide total adjusted rotation by segment size and round down to get the index
     const index = Math.floor(adjustedRotation / segmentAngle);
+
+    // step 6: safety check - make sure we don't go beyond the last segment in the array
     return Math.min(index, this.segments().length - 1);
   });
 
@@ -190,10 +202,10 @@ export class SpinnerComponent {
     if (this.isSpinning()) return;
 
     const baseRotation = 360 * 5; // 5 full rotations
-    const randomRotation = Math.random() * 360;
+    const randomRotation = Math.random() * 360; // random angle to make spin different each time
     const totalRotation = baseRotation + randomRotation;
 
-    this.currentRotation.update((current) => current + totalRotation);
+    this.currentRotation.update((current) => current + totalRotation); // update current rotation
     this.isSpinning.set(true);
 
     // Note: comment/uncomment router/dialog block for different results views
@@ -220,11 +232,17 @@ export class SpinnerComponent {
     if (targetIndex === -1) return;
 
     const segmentAngle = this.segmentAngle();
-    const targetSegmentCentre = targetIndex * segmentAngle + segmentAngle / 2;
-    const baseRotation = 360 * 5; // 5 full rotations
+    // step 1: calculate where the target segmen'ts centre is
+    // segments start at 0degs (3 o'clock) and go counter-clockwise
+    // index 0 gets the last segment (first added and highest angle range) so need to reverse the calculation
+    const segmentStartAngle =
+      (this.segments().length - 1 - targetIndex) * segmentAngle;
+    const targetSegmentCentre = segmentStartAngle + segmentAngle / 2;
 
-    // Calculate rotation needed to align target segment with arrow (top)
-    const finalRotation = baseRotation + (360 - targetSegmentCentre);
+    // step 2: calculate rotation needed to bring thise centre to pointer position
+    const rotationNeeded = (targetSegmentCentre - 90 + 360) % 360;
+    const baseRotation = 360 * 5; // 5 full rotations
+    const finalRotation = baseRotation + rotationNeeded;
 
     this.currentRotation.update((current) => current + finalRotation);
     this.isSpinning.set(true);

@@ -4,6 +4,8 @@ import {
   effect,
   ElementRef,
   inject,
+  input,
+  OnInit,
   signal,
   TemplateRef,
   viewChild,
@@ -26,10 +28,13 @@ interface WheelSegment {
   templateUrl: './spinner.html',
   styleUrl: './spinner.css',
 })
-export class SpinnerComponent {
+export class SpinnerComponent implements OnInit {
   // DI
   private router = inject<Router>(Router);
   private dialogService = inject<DialogService>(DialogService);
+
+  // Inputs
+  preloadedSegments = input<WheelSegment[]>([]);
 
   // References
   private canvas = viewChild<ElementRef<HTMLCanvasElement>>('wheel');
@@ -63,30 +68,31 @@ export class SpinnerComponent {
   // computed properties
   segmentCount = computed(() => Math.max(1, this.segments().length));
   segmentAngle = computed(() => 360 / this.segmentCount());
+  isPreloadedMode = computed(() => this.preloadedSegments().length > 0);
 
   // Calculate which segment the arrow is pointing to
   selectedSegmentIndex = computed(() => {
-    // step 1: calculate the remaining rotation (not the full spins)
+    // calculate the remaining rotation (not the full spins)
     const rotation = this.currentRotation() % 360;
 
-    // step 2: adjust for pointer position
+    // adjust for pointer position
     // pointer is at 12 o'clock (90degs) and segments start at 0degs (3 o'clock)
     // add 90degs to move to where the pointer actually is
     const pointerAdjustedRotation = (rotation + 90) % 360;
 
-    // step 3: reverse the direction
+    // reverse the direction
     // wheel spins clockwise but segments move counter-clockwise from the pointer view
     // subtract from 360 to get the opposing angle (what's left of the 360 degree circle)
     const adjustedRotation = (360 - pointerAdjustedRotation) % 360;
 
-    // step 4: get the size of each segment from signal value
+    // get the size of each segment from signal value
     const segmentAngle = this.segmentAngle();
 
-    // step 5: calculate the index of the segment the pointer is on
+    // calculate the index of the segment the pointer is on
     // divide total adjusted rotation by segment size and round down to get the index
     const index = Math.floor(adjustedRotation / segmentAngle);
 
-    // step 6: safety check - make sure we don't go beyond the last segment in the array
+    // safety check - make sure we don't go beyond the last segment in the array
     return Math.min(index, this.segments().length - 1);
   });
 
@@ -130,6 +136,21 @@ export class SpinnerComponent {
         el.style.transform = `rotate(${degrees}deg)`;
       }
     });
+  }
+
+  ngOnInit() {
+    const preloaded = this.preloadedSegments();
+    if (preloaded.length > 0) {
+      this.segments.set(preloaded);
+    } else {
+      this.segments.set([
+        {
+          label: '',
+          colour: this.segmentColours[0],
+          id: this.generateId(),
+        },
+      ]);
+    }
   }
 
   ngAfterViewInit() {

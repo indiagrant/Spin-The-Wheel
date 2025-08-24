@@ -353,19 +353,41 @@ export class SpinnerComponent implements OnInit {
 
     const ctx = this.ctx;
     // calculate angle for centre of the segment
-    const angle = ((index * segmentAngle + segmentAngle / 2) * Math.PI) / 180;
-    const labelRadius = this.radius * 0.7;
+    let angle = ((index * segmentAngle + segmentAngle / 2) * Math.PI) / 180;
+    const labelRadius = this.radius * 0.65;
 
     // calculate label position
     const x = this.centreX + Math.cos(angle) * labelRadius;
     const y = this.centreY + Math.sin(angle) * labelRadius;
 
     ctx.save();
+    ctx.translate(x, y);
 
+    if (angle > Math.PI / 2 && angle < (3 * Math.PI) / 2) {
+      angle += Math.PI;
+    }
+
+    ctx.rotate(angle);
     ctx.fillStyle = '#333';
     ctx.font = '16px Arial';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(label, x, y);
+
+    // trim label if too long
+    const maxWidth = this.radius * 0.4;
+
+    if (ctx.measureText(label).width > maxWidth) {
+      while (
+        ctx.measureText(label + '...').width > maxWidth &&
+        label.length > 1
+      ) {
+        label = label.slice(0, -1);
+      }
+      label += '...';
+    }
+
+    ctx.fillText(label, 0, 0);
+
+    ctx.restore();
   }
 }

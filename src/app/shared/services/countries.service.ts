@@ -38,7 +38,8 @@ export class CountriesService {
     return this.http.get<Country[]>(this.API_URL).pipe(
       map((countries) =>
         countries
-          // limit to 15 countries
+          .slice()
+          .sort(() => 0.5 - Math.random())
           .slice(0, 15)
           .map((country, index) => ({
             label: country.name.common,

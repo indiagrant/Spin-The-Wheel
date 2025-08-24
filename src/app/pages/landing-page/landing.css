@@ -31,3 +31,28 @@ p {
     line-height: 1.5;
   }
 }
+
+.button-container {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  margin-bottom: 20px;
+
+  @media screen and (max-width: 650px) {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+
+.loading-text {
+  font-size: 16px;
+  color: var(--loading);
+  font-style: italic;
+  margin-top: 10px;
+}
+
+.error-text {
+  font-size: 16px;
+  color: var(--error);
+  margin-top: 10px;
+}

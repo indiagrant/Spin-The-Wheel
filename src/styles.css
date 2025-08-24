@@ -2,6 +2,9 @@
   --oatmeal: #faf4e6;
   --black: #242323;
   --white: #ffffff;
+
+  --error: #dc3545;
+  --loading: #666;
 }
 
 .light {

@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ButtonComponent } from '../../shared/button/button';
+import { ButtonComponent } from '../../shared/components/button/button';
 
 @Component({
   selector: 'app-results-page',

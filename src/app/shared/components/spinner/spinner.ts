@@ -211,13 +211,13 @@ export class SpinnerComponent {
     // Note: comment/uncomment router/dialog block for different results views
     setTimeout(() => {
       this.isSpinning.set(false);
-      this.router.navigate(['/results'], {
-        queryParams: { segment: this.selectedSegment() },
-      });
-      // this.dialogService.openDialog({
-      //   template: this.results()!,
-      //   title: '🎉 Results:',
+      // this.router.navigate(['/results'], {
+      //   queryParams: { segment: this.selectedSegment() },
       // });
+      this.dialogService.openDialog({
+        template: this.results()!,
+        title: '🎉 Results:',
+      });
     }, 4000);
   }
 

@@ -1,5 +1,4 @@
 import { Component, input } from '@angular/core';
-import { ButtonComponent } from '../button/button';
 
 @Component({
   selector: 'app-panel',
@@ -10,6 +9,4 @@ import { ButtonComponent } from '../button/button';
 export class PanelComponent {
   // Inputs
   title = input<string | undefined>('');
-
-  // Methods
 }

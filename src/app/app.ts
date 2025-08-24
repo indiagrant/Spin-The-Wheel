@@ -1,10 +1,13 @@
 import { Component, computed, inject, Signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ThemeToggleComponent } from './shared/theme/theme-toggle';
-import { ThemeService } from './shared/theme/theme.service';
+import { ThemeToggleComponent } from './shared/components/theme/theme-toggle';
+import { ThemeService } from './shared/components/theme/theme.service';
 import { CommonModule } from '@angular/common';
-import { DialogData, DialogService } from './shared/dialog/dialog.service';
-import { DialogComponent } from './shared/dialog/dialog';
+import {
+  DialogData,
+  DialogService,
+} from './shared/components/dialog/dialog.service';
+import { DialogComponent } from './shared/components/dialog/dialog';
 
 @Component({
   selector: 'app-root',

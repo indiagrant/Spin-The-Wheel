@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SpinnerComponent } from '../../shared/spinner/spinner';
+import { SpinnerComponent } from '../../shared/components/spinner/spinner';
 
 @Component({
   selector: 'app-wheel-page',

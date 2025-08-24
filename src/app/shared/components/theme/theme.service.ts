@@ -11,10 +11,6 @@ export class ThemeService {
   readonly theme = this.currentTheme.asReadonly();
 
   // Methods
-  setTheme(theme: Theme) {
-    this.currentTheme.set(theme);
-  }
-
   updateTheme() {
     this.currentTheme.update((value) => (value === 'light' ? 'dark' : 'light'));
   }

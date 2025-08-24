@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { ButtonComponent } from '../../shared/button/button';
-import { ThemeToggleComponent } from '../../shared/theme/theme-toggle';
+import { ButtonComponent } from '../../shared/components/button/button';
+import { ThemeToggleComponent } from '../../shared/components/theme/theme-toggle';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { ThemeService } from '../../shared/theme/theme.service';
+import { ThemeService } from '../../shared/components/theme/theme.service';
 import { computed, inject } from '@angular/core';
-import { PanelComponent } from '../../shared/panel/panel';
-import { DialogComponent } from '../../shared/dialog/dialog';
 
 @Component({
   selector: 'app-landing',

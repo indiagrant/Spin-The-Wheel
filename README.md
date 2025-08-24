@@ -23,7 +23,7 @@ Once the server is running, open your browser and navigate to `http://localhost:
 There are two ways to view the results after spinning the wheel:
 
 1. Default (Navigation to Results Page):
-   After the wheel finishes spinning, the application navigates to a separate /results page to display the outcome. This approach was implemented to meet initial requirements.
+   After the wheel finishes spinning, the application navigates to a separate /results page to display the outcome.
 
 2. Optional (Dialog Window):
    For a smoother and (ever so slightly) more fun user experience, I have also built a dialog window component to view results.

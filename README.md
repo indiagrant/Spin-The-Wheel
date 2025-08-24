@@ -1,6 +1,6 @@
 # SpinTheWheel
 
-Small Spin-The-Wheel application built in Angular and TypeScript with dynamic segments, custom components and http requests to an online API.
+Small Spin-The-Wheel application built in Angular and TypeScript with dynamic segments, custom components and http requests to an online API. Either create your own wheel or use the pre-made countries wheel to spin between 15 random countries.
 
 ## Development server
 
@@ -53,6 +53,8 @@ This app was built iteratively, prioritising simplicity first and adding complex
 Component architecture: Broke down functionality into clean, reusable Angular standalone components using signals.
 
 Iterative development: Started with a hardcoded version of the wheel to quickly validate concept. Gradually moved to a dynamic version with user-defined inputs and result handling.
+
+API handling: http request to the REST countries API using a service layer added as an extra feature to the application.
 
 🧩 What Was Challenging
 

@@ -250,8 +250,6 @@ export class SpinnerComponent {
 
     this.currentRotation.update((current) => current + finalRotation);
     this.isSpinning.set(true);
-
-    // Hide target input
     this.showTargetInput.set(false);
     this.targetSegmentLabel.set('');
 
@@ -280,7 +278,6 @@ export class SpinnerComponent {
     if (!this.ctx) return;
 
     const ctx = this.ctx;
-    //clear canvas
     ctx.clearRect(0, 0, 500, 500);
 
     // draw wheel background circle
@@ -292,7 +289,6 @@ export class SpinnerComponent {
     ctx.lineWidth = 2;
     ctx.stroke();
 
-    // draw segments
     this.drawSegments();
   }
 

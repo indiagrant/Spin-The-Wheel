@@ -1,6 +1,6 @@
 # SpinTheWheel
 
-Small Spin-The-Wheel application built in Angular and TypeScript with dynamic segments and custom components.
+Small Spin-The-Wheel application built in Angular and TypeScript with dynamic segments, custom components and http requests to an online API.
 
 ## Development server
 

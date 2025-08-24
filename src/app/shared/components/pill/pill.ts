@@ -20,7 +20,6 @@ export class PillComponent {
   // Methods
   handleRemove(): void {
     this.removing.set(true);
-    // Delay for animation
     setTimeout(() => this.remove.emit(), 300);
   }
 }

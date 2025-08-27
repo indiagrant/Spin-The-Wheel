@@ -1,5 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { Theme, ThemeService } from './theme.service';
+import { ThemeService } from './theme.service';
+import { Theme } from '../../models';
+
 import { CommonModule } from '@angular/common';
 
 @Component({

@@ -1,19 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-
-export interface Country {
-  name: {
-    common: string;
-    official: string;
-  };
-}
-
-export interface CountrySegment {
-  label: string;
-  colour: string;
-  id: string;
-}
+import { Country, CountrySegment } from '../models/country.model';
 
 @Injectable({
   providedIn: 'root',

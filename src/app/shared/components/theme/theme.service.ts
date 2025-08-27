@@ -1,6 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-
-export type Theme = 'light' | 'dark';
+import { Theme } from '../../models/theme.model';
 
 @Injectable({
   providedIn: 'root',

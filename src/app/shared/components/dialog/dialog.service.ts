@@ -1,9 +1,5 @@
-import { Injectable, signal, TemplateRef } from '@angular/core';
-
-export interface DialogData {
-  template: TemplateRef<void>;
-  title?: string;
-}
+import { Injectable, signal } from '@angular/core';
+import { DialogData } from '../../models/';
 
 @Injectable({
   providedIn: 'root',

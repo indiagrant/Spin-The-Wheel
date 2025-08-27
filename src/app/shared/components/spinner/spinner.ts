@@ -15,12 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { PillComponent } from '../pill/pill';
 import { Router } from '@angular/router';
 import { DialogService } from '../dialog/dialog.service';
-
-interface WheelSegment {
-  label: string;
-  colour: string;
-  id: string;
-}
+import { WheelSegment } from '../../models/';
 
 @Component({
   selector: 'app-spinner',

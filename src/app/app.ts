@@ -3,10 +3,8 @@ import { RouterOutlet } from '@angular/router';
 import { ThemeToggleComponent } from './shared/components/theme/theme-toggle';
 import { ThemeService } from './shared/components/theme/theme.service';
 import { CommonModule } from '@angular/common';
-import {
-  DialogData,
-  DialogService,
-} from './shared/components/dialog/dialog.service';
+import { DialogService } from './shared/components/dialog/dialog.service';
+import { DialogData } from './shared/models';
 import { DialogComponent } from './shared/components/dialog/dialog';
 
 @Component({

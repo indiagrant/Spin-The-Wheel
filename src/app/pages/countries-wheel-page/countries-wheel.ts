@@ -17,7 +17,6 @@ export class CountriesWheelComponent implements OnInit {
   countries: CountrySegment[] = [];
 
   ngOnInit(): void {
-    const navigation = this.router.getCurrentNavigation();
     const state = history.state;
 
     if (state?.countries) {

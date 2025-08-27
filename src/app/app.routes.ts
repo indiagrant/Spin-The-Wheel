@@ -9,12 +9,14 @@ export const routes: Routes = [
   {
     path: 'wheel',
     loadComponent: () =>
-      import('./pages/wheel-page/wheel-page').then((m) => m.WheelPageComponent),
+      import('./pages/create-own-wheel-page/wheel-page').then(
+        (m) => m.WheelPageComponent
+      ),
   },
   {
     path: 'countries-wheel',
     loadComponent: () =>
-      import('./pages/countries-wheel/countries-wheel').then(
+      import('./pages/countries-wheel-page/countries-wheel').then(
         (m) => m.CountriesWheelComponent
       ),
   },

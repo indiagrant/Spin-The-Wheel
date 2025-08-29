@@ -9,4 +9,6 @@
   </ul>
 </section>
 
-<app-spinner [preloadedSegments]="countries"></app-spinner>
+@if (countries().length >0) {
+<app-spinner [preloadedSegments]="countries()"></app-spinner>
+}

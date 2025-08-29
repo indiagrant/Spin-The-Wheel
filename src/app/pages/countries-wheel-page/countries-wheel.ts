@@ -1,7 +1,7 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SpinnerComponent } from '../../shared/components/spinner/spinner';
-import { Router } from '@angular/router';
-import { CountrySegment } from '../../shared/models';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { CountriesService } from '../../shared/services/countries.service';
 
 @Component({
   selector: 'app-countries-wheel',
@@ -9,20 +9,12 @@ import { CountrySegment } from '../../shared/models';
   templateUrl: './countries-wheel.html',
   styleUrl: './countries-wheel.css',
 })
-export class CountriesWheelComponent implements OnInit {
+export class CountriesWheelComponent {
   // DI
-  private router = inject(Router);
+  private countriesService = inject(CountriesService);
 
   // properties
-  countries: CountrySegment[] = [];
-
-  ngOnInit(): void {
-    const state = history.state;
-
-    if (state?.countries) {
-      this.countries = state.countries;
-    } else {
-      this.router.navigate(['/']);
-    }
-  }
+  countries = toSignal(this.countriesService.getCountries(), {
+    initialValue: [],
+  });
 }

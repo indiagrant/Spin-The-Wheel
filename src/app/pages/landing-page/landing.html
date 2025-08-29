@@ -16,13 +16,6 @@
     <app-button
       label="Countries Wheel"
       (btnClick)="navigateToCountriesWheel()"
-      [disabled]="loadingCountries()"
     ></app-button>
   </div>
-
-  @if (loadingCountries()) {
-  <p class="loading-text">Loading countries...</p>
-  } @if (errorMessage()) {
-  <p class="error-text">{{ errorMessage() }}</p>
-  }
 </section>

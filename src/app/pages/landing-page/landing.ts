@@ -17,11 +17,6 @@ export class LandingComponent {
   // DI
   private router = inject(Router);
   private themeService = inject(ThemeService);
-  private countriesService = inject(CountriesService);
-
-  // signals
-  loadingCountries = signal<boolean>(false);
-  errorMessage = signal<string>('');
 
   // Computed properties
   theme = computed(() => this.themeService.theme());
@@ -32,25 +27,6 @@ export class LandingComponent {
   }
 
   navigateToCountriesWheel() {
-    this.loadingCountries.set(true);
-    this.errorMessage.set('');
-
-    this.countriesService
-      .getCountries()
-      .pipe(
-        catchError((error) => {
-          this.errorMessage.set(
-            'Failed to load countries. Please try again later.'
-          );
-          return of([]);
-        })
-      )
-      .subscribe((countries) => {
-        this.loadingCountries.set(false);
-
-        if (countries.length > 0) {
-          this.router.navigate(['/countries-wheel'], { state: { countries } });
-        }
-      });
+    this.router.navigate(['/countries-wheel']);
   }
 }
